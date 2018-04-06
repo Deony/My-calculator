@@ -1,0 +1,60 @@
+body {
+    background-color: #222;
+    margin: 0;
+    padding: 0; }
+
+.mainBoard {
+    width: 500px;
+    background: #E06F6F;    
+    border-radius: 25px;
+    margin: 50px;
+    display: flex;
+    flex-flow: row wrap; }
+
+#display {
+    box-shadow: 5px 5px #B14040;
+    font-size: 1em;
+    margin: 15px;
+    width: 270px;
+    height: 60px;
+    text-align: right;
+    background: #BCCD95;
+    color: black;
+    float: left; }
+
+.keys {
+    display: flex; }
+
+.keys #numbers {
+    margin: 15px; }
+
+.keys #operations {
+    margin: 15px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px #222 solid; }
+
+.keys #numbers button {
+    color: #303030; }
+
+.keys #operations button {
+    color: white;
+    background-color: #6f6f6f;
+    border: 2px #6f6f6f solid;
+    border-bottom: black 2px solid; }
+
+.keys #numbers button, .keys #operations button{
+    border-radius: 13px;
+    width: 55px;
+    height: 45px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-left: 18px;
+    margin-top: 18px;
+    float: left; }
+
+.keys #numbers button:hover {
+    border: 2px #6f6f6f solid; }
+ 
+.keys #operations button:hover {
+    border: 2px #303030 solid; }
