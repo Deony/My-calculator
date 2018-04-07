@@ -37,11 +37,11 @@ function getOperator(op){
 	}
 
 	calculatorObject.operator = op.target.value;
-	display.call(calculatorObject, foo());
+	display.call(calculatorObject, chooseOperator());
 	++calculatorObject.quantity;
 
-	function foo(){
-		return (calculatorObject.operator == '=') ? calculatorObject.result : calculatorObject.operator; 
+	function chooseOperator(){
+		return (calculatorObject.operator === '=') ? calculatorObject.result : calculatorObject.operator; 
 	};
 }
 
@@ -53,20 +53,14 @@ function calculation() {
 
 	if(operator == '+') {
 		function sum() {
-			for (j = 2; j <= calculatorObject.quantity; j += 1) {
-				result += Number(calculatorObject['num' + j]);
-			}
-		return result;
+			return Number(calculatorObject['num1']) + Number(calculatorObject['num2']);
 		}
 
 		calculatorObject.result = sum(); 
 	}
 	else if	(operator == '-') {
 		function subtraction() {
-			for (j = 2; j <= calculatorObject.quantity; j += 1) {
-				result -= Number(calculatorObject['num' + j]);
-			}
-		return result;
+			return Number(calculatorObject['num1']) - Number(calculatorObject['num2']);
 		}
 		
 		calculatorObject.result = subtraction(); 
@@ -74,21 +68,15 @@ function calculation() {
 
 	else if (operator == '*') {
 		function multiplication() {
-			for (j = 2; j <= calculatorObject.quantity; j += 1) {
-				result *= Number(calculatorObject['num' + j]);
+				return Number(calculatorObject['num1']) * Number(calculatorObject['num2']);
 			}
-		return result;
-		}
-		
+
 		calculatorObject.result = multiplication(); 
 	}
 
 	else if (operator == '/') {
 		function division() {
-			for (j = 2; j <= calculatorObject.quantity; j += 1) {
-				result /= Number(calculatorObject['num' + j]);
-			}
-		return result;
+			return Number(calculatorObject['num1']) / Number(calculatorObject['num2']);
 		}
 		
 		calculatorObject.result = division(); 
@@ -99,10 +87,8 @@ function calculation() {
 
 //Reset all values that were entered
 function resetResult() {
-	var j;
-	for (j = 1; j <= calculatorObject.quantity; j += 1) {
-		calculatorObject['num' + j] = 0;
-	}
+	calculatorObject['num1'] = '';
+	calculatorObject['num2'] = '';
 	calculatorObject.quantity = 0;
 	buttonOperation.addEventListener('click', getOperator, false);
 	buttonNumber.addEventListener('click', getNumber, false);
