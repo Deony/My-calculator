@@ -34,15 +34,15 @@ function getOperator(op){
 		calculatorObject.quantity = 1;
 		calculatorObject['num' + calculatorObject.quantity] = calculatorObject.result;
 		calculatorObject['num2'] = '';
-		buttonGetResult.addEventListener('click', function() {
-			buttonOperation.removeEventListener('click', getOperator, false);
-			displayResult();
-		}, false);
 	}
 
 	calculatorObject.operator = op.target.value;
-	display.call(calculatorObject, calculatorObject.operator);
+	display.call(calculatorObject, foo());
 	++calculatorObject.quantity;
+
+	function foo(){
+		return (calculatorObject.operator == '=') ? calculatorObject.result : calculatorObject.operator; 
+	};
 }
 
 
@@ -111,10 +111,4 @@ function resetResult() {
 //Display the manipulations of the calculator on the Field
 function display(res) {
 	displayField.innerText = res;
-}
-
-//Display the final result on the Field
-function displayResult() {
-	displayField.innerText = calculatorObject.result;
-	console.log('The final result = '+calculatorObject.result);
 }
