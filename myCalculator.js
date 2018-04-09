@@ -4,14 +4,32 @@ var buttonNumber = document.getElementById("numbers"),
 	displayField = document.getElementById("display"),
 	buttonGetResult = document.getElementById("getResult"),
 	buttonReset = document.getElementById("reset"),
-	calculatorObject = {operator: getOperator, result: '', quantity: 1};
+	calculatorObject = {operator: getOperator, result: '', quantity: 1},
+	calc = {
+		'+': function() {
+			return Number(calculatorObject['num1']) + Number(calculatorObject['num2']);
+		},
+
+		'-': function() {
+			return Number(calculatorObject['num1']) - Number(calculatorObject['num2']);
+		},
+		
+		'*': function() {
+				return Number(calculatorObject['num1']) * Number(calculatorObject['num2']);
+			},
+
+		'/': function() {
+			return Number(calculatorObject['num1']) / Number(calculatorObject['num2']);
+		}
+	};
+	calculatorObject.prototype = calc;
 
 
 buttonNumber.addEventListener('click', getNumber, false);
 
 
 function getNumber(element) {
-	if (calculatorObject['num' + calculatorObject.quantity] === undefined) {
+	if (calculatorObject['num' + calculatorObject.quantity] === undefined || calculatorObject['num' + calculatorObject.quantity] === 0) {
 		calculatorObject['num' + calculatorObject.quantity];
 		calculatorObject['num' + calculatorObject.quantity] = element.target.value;
 	}
@@ -23,7 +41,10 @@ function getNumber(element) {
 	display.call(calculatorObject, calculatorObject['num' + calculatorObject.quantity]);
 	buttonOperation.addEventListener('click', getOperator, false);
 	buttonReset.addEventListener('click', resetResult, false);
-	calculation.call(calculatorObject);	
+
+	if (calculatorObject.quantity === 2) {
+		calculation.call(calculatorObject);
+	}	
 }
 
 
@@ -33,7 +54,7 @@ function getOperator(op){
 	if(calculatorObject.quantity === 2) {
 		calculatorObject.quantity = 1;
 		calculatorObject['num' + calculatorObject.quantity] = calculatorObject.result;
-		calculatorObject['num2'] = '';
+		calculatorObject['num2'] = 0;
 	}
 
 	calculatorObject.operator = op.target.value;
@@ -47,48 +68,15 @@ function getOperator(op){
 
 
 function calculation() {
-	var operator = calculatorObject.operator,
-		j,
-		result = Number(calculatorObject['num' + 1]);	
-
-	if(operator == '+') {
-		function sum() {
-			return Number(calculatorObject['num1']) + Number(calculatorObject['num2']);
-		}
-
-		calculatorObject.result = sum(); 
-	}
-	else if	(operator == '-') {
-		function subtraction() {
-			return Number(calculatorObject['num1']) - Number(calculatorObject['num2']);
-		}
-		
-		calculatorObject.result = subtraction(); 
-	}
-
-	else if (operator == '*') {
-		function multiplication() {
-				return Number(calculatorObject['num1']) * Number(calculatorObject['num2']);
-			}
-
-		calculatorObject.result = multiplication(); 
-	}
-
-	else if (operator == '/') {
-		function division() {
-			return Number(calculatorObject['num1']) / Number(calculatorObject['num2']);
-		}
-		
-		calculatorObject.result = division(); 
-	}
-
+	calculatorObject.result = calc[calculatorObject.operator]();
 	console.log('Current result = '+calculatorObject.result);	
 }
 
 //Reset all values that were entered
 function resetResult() {
-	calculatorObject['num1'] = '';
-	calculatorObject['num2'] = '';
+	calculatorObject['num1'] = 0;
+	calculatorObject['num2'] = 0;
+	calculatorObject.result = 0;
 	calculatorObject.quantity = 0;
 	buttonOperation.addEventListener('click', getOperator, false);
 	buttonNumber.addEventListener('click', getNumber, false);
