@@ -1,6 +1,6 @@
 var buttonNumber = document.getElementById("numbers"),
 	buttonOperation = document.getElementById("operations"),
-	// buttonOperation = document.querySelector("button.oper"),	
+	// buttonOperation = document.querySelectorAll("button.oper"),
 	displayField = document.getElementById("display"),
 	buttonGetResult = document.getElementById("getResult"),
 	buttonReset = document.getElementById("reset"),
@@ -24,8 +24,8 @@ var buttonNumber = document.getElementById("numbers"),
 	};
 	calculatorObject.prototype = calc;
 
-
-buttonNumber.addEventListener('click', getNumber, false);
+// window.addEventListener('keyup', getNumber, false) ||
+buttonNumber.addEventListener('click', getNumber, false)
 
 
 function getNumber(element) {
@@ -36,6 +36,10 @@ function getNumber(element) {
 	else {
 		calculatorObject['num' + calculatorObject.quantity] += element.target.value;
 	}
+
+// var aa=element.keyCode;
+// console.log(aa);
+// var vv=document.querySelector(`button[data-key="${aa}"]`);
 
 	console.log(calculatorObject);
 	display.call(calculatorObject, calculatorObject['num' + calculatorObject.quantity]);
@@ -48,28 +52,31 @@ function getNumber(element) {
 }
 
 
-function getOperator(op){
+function getOperator(op){	
 
 	//Makes calculation if there are two numbers. The result of calculation will be placed on the first place for the subsequent calculations
 	if(calculatorObject.quantity === 2) {
 		calculatorObject.quantity = 1;
-		calculatorObject['num' + calculatorObject.quantity] = calculatorObject.result;
+		calculatorObject['num1'] = calculatorObject.result;
 		calculatorObject['num2'] = 0;
 	}
 
 	calculatorObject.operator = op.target.value;
+	console.log(calculatorObject.operator);
 	display.call(calculatorObject, chooseOperator());
 	++calculatorObject.quantity;
 
 	function chooseOperator(){
-		return (calculatorObject.operator === '=') ? calculatorObject.result : calculatorObject.operator; 
+		return (calculatorObject.operator === '=') ? calculatorObject.result :
+				(calculatorObject.operator === 'C') ? (calculatorObject.result = 0) :
+				calculatorObject.operator; 
 	};
 }
 
 
 function calculation() {
-	calculatorObject.result = calc[calculatorObject.operator]();
-	console.log('Current result = '+calculatorObject.result);	
+	this.result = calc[this.operator]();
+	console.log('Current result = '+this.result);
 }
 
 //Reset all values that were entered
@@ -84,5 +91,5 @@ function resetResult() {
 
 //Display the manipulations of the calculator on the Field
 function display(res) {
-	displayField.innerText = res;
+	displayField.value = res;
 }
